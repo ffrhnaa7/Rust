@@ -1,204 +1,174 @@
-//파하나 202210659
-pub mod problems { //3.1
-    /**
-        1에서 n까지의 정수의 합을 구하는 함수 sum을 작성하라
-        n ≤ 0인 경우 0을, n > 0인 경우 n(n+1)/2를 반환한다
-        
-        ```
-        use rust_hw2::problems::sum;
-        
-        assert_eq!(sum(-10), 0);
-        assert_eq!(sum(100), 5050);
-        ```
-     */
-    pub fn sum(n: i32) -> i32 {
-        if n <= 0 {
-            return 0;
-        }
-        return (n * (n + 1)) / 2;
-    }
-
-    /**
-        1에서 n까지의 정수의 곱을 구하는 함수 factorial을 작성하라
-        n <= 0인 경우 0을 반환한다.
-
-        ```
-        use rust_hw2::problems::factorial;
-
-        assert_eq!(factorial(-10), 0);
-        assert_eq!(factorial(5), 120);
-        ```
-     */
-    pub fn factorial(n: i32) -> i32 { //3.2
-        if n <= 0 {
-            return 0;
-        }
-        if n == 1{
-            return 1;
-        }
-        return n * factorial(n - 1);
-    }
-
-    /**
-        반지름이 r인 원의 넓이를 구하는 함수 circle을 작성하라
-        r ≤ 0.0인 경우 0.0을, r > 0.0인 경우 3.14 * r * r을 반환한다
-        
-        ```
-        use rust_hw2::problems::circle;
-        
-        assert_eq!(circle(-10.1), 0.0);
-        assert_eq!(circle(4.2), 55.389595);
-        ```
-     */
-    pub fn circle(r: f32) -> f32 { //3.3
-        if r <= 0.0 {
-            return 0.0;
-        }
-        return 3.14 * r * r; //rn2
-    }
-
-    /**
-        문자열의 앞에 "Hello "를 삽입하는 함수 concat을 작성하라
-        
-        concat s는 문자열 s의 앞에 "Hello "를 삽입한 문자열을 반환한다. (Hello 뒤에 공백문자가 있음에 유의하라.)
-        
-        ```
-        use rust_hw2::problems::concat;
-        
-        assert_eq!(concat("Bob!"), "Hello Bob!");
-        assert_eq!(concat("Alice!"), "Hello Alice!");
-        ```
-     */
-    pub fn concat(str: &str) -> String { //3.4
-        let result = format!("Hello {}", str);
-        result
-    }
-
-    /**
-        논리연산자 xor를 계산하는 함수 xor를 작성하라
-        
-        불린형 값 x와 y중 하나만 true일 경우에 true를, 이외의 경우 false를 반환한다
-        
-        ```
-        use rust_hw2::problems::xor;
-        
-        assert_eq!(xor(true, true), false);
-        assert_eq!(xor(true, false), true);
-        assert_eq!(xor(false, true), true);
-        assert_eq!(xor(false, false), false);
-        ```
-     */
-    pub fn xor(x: bool, y: bool) -> bool { //3.5
-        let z = x ^ y;
-        z
-    }
-
-    /**
-        리스트에서 가장 큰 값을 찾아서 반환하는 함수 max를 작성하라.
-        
-        5개의 값이 포함된 리스트에서 가장 큰 값을 찾아서 반환한다.
-        
-        ```
-        use rust_hw2::problems::max;
-        
-        assert_eq!(max([1, 2, 3, 4, 5]), 5);
-        assert_eq!(max([5, 4, 3, 2, 1]), 5);
-        ```
-     */
-    pub fn max(list: [u32; 5]) -> u32 { //3.6
-        let mut large = 0; // initialize large with 0
-        for &n in list.iter() { // check each element in the list
-            if n > large { 
-                large = n;
-            }
-        }
-        large
-    }
-
-    /**
-        세 정수를 변의 길이로 가지는 삼각형이 존재하는지 확인하는 함수 triangle을 작성하라.
-        
-        x, y, z중 하나라도 0 또는 음수인 경우 false를,
-        x, y, z가 모두 양수인 경우 x, y, z를 세 변으로 가지는 삼각형이 존재하면 true를, 존재하지 않으면 false를 반환한다.
-        
-        ```
-        use rust_hw2::problems::triangle;
-        
-        assert_eq!(triangle(-3, 3, 1), false);
-        assert_eq!(triangle(3, 4, 5), true);
-        assert_eq!(triangle(100, 1, 2), false);
-        ```
-     */
-    pub fn triangle(x: i32, y: i32, z: i32) -> bool { //3.7
-        if x <= 0 || y <= 0 || z <= 0 {
-            return false; // cannot build triangle
-        }
-        return z + x > y && y + z > x && x + y > z ;
-    }
-
-    /**
-        두 정수의 합과 차 중 하나를 선택하는 함수 if_else를 작성하라.
-        
-        b가 true이면 x + y를, false이면 x − y를 반환한다.
-        
-        ```
-        use rust_hw2::problems::if_else;
-        
-        assert_eq!(if_else(true, 2, 100), 102);
-        assert_eq!(if_else(100 < 2, 2, -2), 4);
-        ```
-     */
-    pub fn if_else(b: bool, x: i32, y: i32) -> i32 { //3.8
-        if b {
-            x + y //true
+pub mod problems {
+   
+   //farhana 202210659
+   
+   /// 1에서 n까지의 정수의 합을 구하는 함수 recursive_sum을 작성하라.
+    /// 
+    /// 기존 n * (n + 1) / 2 공식을 사용하지 말고 재귀함수로 작성할 것.
+    /// (가정) n > 0
+    /// ```
+    /// use rust_hw3::problems::recursive_sum;
+    /// 
+    /// assert_eq!(recursive_sum(50), 1275);
+    /// assert_eq!(recursive_sum(100), 5050);
+    /// ```
+    pub fn recursive_sum(n: i32) -> i32 { //3.1
+        if n == 1 { //base case
+            1
         } else {
-            x - y //false
+            n + recursive_sum(n - 1)
         }
     }
 
-    /**
-        사칙연산을 구현하는 함수 calculator를 작성하라.
-        
-        "+", "-", "*", "/" 연산을 수행하는 계산기를 구현한다.
-        다른 연산자가 들어오는 경우 –1.0을 반환한다.
-        
-        ```
-        use rust_hw2::problems::calculator;
-        
-        assert_eq!(calculator(1.0, "+", 3.0), 4.0);
-        assert_eq!(calculator(3.0, "-", 1.0), 2.0);
-        assert_eq!(calculator(2.0, "*", 4.0), 8.0);
-        assert_eq!(calculator(3.0, "/", 1.5), 2.0);
-        ```
-     */
-    pub fn calculator(x: f32, operator: &str, y: f32) -> f32 { //3.9
-        match operator {
-            "+" => x + y,
-            "-" => x - y,
-            "*" => x * y,
-            "/" => x / y,
-            _ => -1.0, // unknown operators
+    /// 1에서 n까지의 정수의 곱을 구하는 함수 factorial을 작성하라.
+    /// 
+    /// 1 × ... × n을 재귀함수로 작성할 것.
+    /// (가정) n > 0
+    /// ```
+    /// use rust_hw3::problems::factorial;
+    ///
+    /// assert_eq!(factorial(4), 24);
+    /// assert_eq!(factorial(5), 120);
+    /// ```
+    pub fn factorial(n: i32) -> i32 { //3.2
+        if n == 1 { //base
+            1
+        } else { //call func
+            n * factorial(n-1)
         }
     }
 
-    pub struct Point {
-        pub x: f32,
-        pub y: f32
+    /// 피보나치 수열을 계산하는 함수 fib를 재귀함수로 작성하라.
+    /// 
+    /// 1번과 2번째 항은 1이며, 3번째 항부터는 앞 2개 항의 합으로 이루어진다.
+    /// F1 = F2 = 1, Fn = Fn-2 + Fn-1을 재귀함수로 구현할 것.
+    /// (가정) n > 0
+    /// ```
+    /// use rust_hw3::problems::fib;
+    ///
+    /// assert_eq!(fib(4), 3);
+    /// assert_eq!(fib(5), 5);
+    /// assert_eq!(fib(6), 8);
+    /// ```
+    pub fn fib(n: i32) -> i32 { //3.3
+        if n == 1 || n == 2 {
+            1
+        } else {
+            fib(n - 1) + fib(n - 2)
+        }
     }
-    /**
-        점 사이의 거리를 계산하는 함수 distance를 작성하라.
-        
-        ((a.x - b.x)^2 + (a.y - b.y)^2)의 제곱근을 계산하여 반환한다.
-        
-        ```
-        use rust_hw2::problems::{ Point, distance };
-        
-        let a = Point { x: 1.0, y: 2.0 };
-        let b = Point { x: 4.0, y: 6.0 };
-        assert_eq!(distance(a, b), 5.0);
-        ```
-     */
-    pub fn distance(a: Point, b: Point) -> f32 { //3.10
-        ((a.x - b.x).powi(2) + (a.y - b.y).powi(2)).sqrt()
+
+    /// 최대공약수를 구하는 함수 gcd를 재귀함수로 작성하라.
+    /// 
+    /// 유클리드 호제법을 이용하여 m과 n의 최대공약수를 반환한다.
+    /// (가정) m > 0, n > 0
+    /// ```
+    /// use rust_hw3::problems::gcd;
+    /// 
+    /// assert_eq!(gcd(15, 20), 5);
+    /// assert_eq!(gcd(1234, 123), 1);
+    /// ```
+    pub fn gcd(m: i32, n: i32) -> i32 { //3.4
+        if n == 0 {
+            m 
+        } else {
+            gcd(n , m % n )
+        }
+    }
+
+    /// 콜라츠 추측을 재귀함수로 작성하라.
+    /// 
+    /// 주어진 값이 짝수인 경우 2로 나누며, 홀수인 경우 3을 곱한 뒤 1을 더한다.
+    /// 값이 1이 될 때까지 반복하며, 반복한 횟수를 반환한다.
+    /// ex) 5 -> 16 -> 8 -> 4 -> 2 -> 1, 총 5회
+    /// (가정) val > 0
+    /// ```
+    /// use rust_hw3::problems::collatz;
+    /// 
+    /// assert_eq!(collatz(5, 0), 5);
+    /// assert_eq!(collatz(17, 0), 12);
+    /// ```
+    pub fn collatz(val: i32, count: i32) -> i32 { //3.5
+        if val == 1 {
+            count
+        } else if val % 2 == 0 {
+            collatz(val / 2, count + 1)
+        } else {
+            collatz(val * 3 + 1, count + 1)
+        }
+    }
+
+    /// 두 개의 정수를 더하는 Closure를 반환하는 sum_closure를 작성하라.
+    /// 
+    /// 두 개의 i32 파라미터를 받아 더한 뒤 반환하는 Closure를 작성하여 반환한다.
+    /// ```
+    /// use rust_hw3::problems::sum_closure;
+    /// 
+    /// assert_eq!(sum_closure()(1, 3), 4);
+    /// assert_eq!(sum_closure()(10, 20), 30);
+    /// ```
+    pub fn sum_closure() -> impl Fn(i32, i32) -> i32 { //3.6
+        |a: i32, b: i32| a + b
+    }
+
+    /// 임의의 2차 함수에 대하여 두 함수 값의 합을 구하는 함수 sum_of_fun_val를 작성하라.
+    /// 
+    /// f(x) = ax^2 + bx + c을 Closure로 정의한 뒤 f(d) + f(e)의 값을 반환한다.
+    /// ```
+    /// use rust_hw3::problems::sum_of_fun_val;
+    /// 
+    /// assert_eq!(sum_of_fun_val(1, 2, 1, 3, 4), 41);
+    /// assert_eq!(sum_of_fun_val(1, -3, -1, 200, 123), 54158);
+    /// ```
+    pub fn sum_of_fun_val(a: i32, b: i32, c: i32, d: i32, e: i32) -> i32 { //3.7
+
+    let f = |x: i32| -> i32 { a * x * x + b * x + c };
+    let sum = f(d) + f(e); // f(d) and f(e), and sum values
+    sum
+    }
+
+    /// 정수를 임의의 2차 함수에 세번 적용한 값을 계산하는 함수 comp3을 작성하라.
+    /// 
+    /// 2차 함수 f(x) = ax^2 + bx + c를 Closure로 정의한 뒤 f(f(f(d)))의 값을 반환한다.
+    /// ```
+    /// use rust_hw3::problems::comp3;
+    /// 
+    /// assert_eq!(comp3(1, 1, 1, 1), 183);
+    /// assert_eq!(comp3(2, 2, 2, 2), 357014);
+    /// ```
+    pub fn comp3(a: i32, b: i32, c: i32, d: i32) -> i32 {//3.8
+    let f = |x: i32| -> i32 { a * x * x + b * x + c };
+    let result = f(f(f(d)));
+    result
+    }
+
+    /// 주어진 벡터의 모든 값에 1을 더한 뒤 반환하는 함수 vector_map을 작성하라.
+    /// 
+    /// Iterator, Closure를 사용하여 작성한다.
+    /// ```
+    /// use rust_hw3::problems::vector_map;
+    /// 
+    /// assert_eq!(vector_map(vec![2, 3, 4, 5]), vec![3, 4, 5, 6]);
+    /// assert_eq!(vector_map((0..5).collect()), vec![1, 2, 3, 4, 5]);
+    /// ```
+    pub fn vector_map(vec: Vec<i32>) -> Vec<i32> { //3.9
+        vec.iter().map(|x| x + 1).collect()
+    }
+
+    /// 주어진 벡터의 모든 값에 3을 더하고, 짝수만을 남긴 뒤 3을 곱한 값을 반환하라.
+    /// 
+    /// Iterator, Closure를 사용하여 작성한다.
+    /// ```
+    /// use rust_hw3::problems::vector_map_filter;
+    /// 
+    /// assert_eq!(vector_map_filter(vec![2, 3, 4, 5]), vec![18, 24]);
+    /// assert_eq!(vector_map_filter((1..=10).collect()), vec![12, 18, 24, 30, 36]);
+    /// ```
+    pub fn vector_map_filter(vec: Vec<i32>) -> Vec<i32> { //3.10
+        vec.iter()
+        .map(|x| x + 3)              //  add 3
+        .filter(|&x| x % 2 == 0)     // remove even numbers
+        .map(|x| x * 3)              // multiply by 3
+        .collect() 
     }
 }
